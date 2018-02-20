@@ -3,7 +3,9 @@ package sling
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 
@@ -386,5 +388,13 @@ func decodeResponseJSON(resp *http.Response, successV, failureV interface{}) err
 // to by v.
 // Caller must provide a non-nil v and close the resp.Body.
 func decodeResponseBodyJSON(resp *http.Response, v interface{}) error {
-	return json.NewDecoder(resp.Body).Decode(v)
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	if err = json.Unmarshal(b, v); err != nil {
+		return fmt.Errorf("body %s, err %v")
+	}
+	return nil
+	//return json.NewDecoder(resp.Body).Decode(v)
 }
