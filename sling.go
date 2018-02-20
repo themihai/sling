@@ -372,7 +372,7 @@ func (s *Sling) Do(req *http.Request, successV, failureV interface{}) (*http.Res
 // decoding is skipped.
 // Caller is responsible for closing the resp.Body.
 func decodeResponseJSON(resp *http.Response, successV, failureV interface{}) error {
-	if code := resp.StatusCode; 200 <= code && code <= 299 {
+	if code := resp.StatusCode; code <= 299 {
 		if successV != nil {
 			return decodeResponseBodyJSON(resp, successV)
 		}
