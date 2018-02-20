@@ -393,7 +393,7 @@ func decodeResponseBodyJSON(resp *http.Response, v interface{}) error {
 		return err
 	}
 	if err = json.Unmarshal(b, v); err != nil {
-		return fmt.Errorf("body %s, err %v")
+		return fmt.Errorf("body %s, err %v", b, err)
 	}
 	return nil
 	//return json.NewDecoder(resp.Body).Decode(v)
